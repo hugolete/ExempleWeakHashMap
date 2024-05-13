@@ -4,23 +4,25 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
-        // Création d'un WeakHashMap (Map où chaque valeur clé est stockée comme WeakReference)
-        Map<ClasseTest, String> weakMap = new WeakHashMap<>();
+        // Création d'un WeakHashMap (Map où chaque objet est stockée comme WeakReference).
+        // On va y stocker les livres de la bibliothèque
+        Map<Livre, String> weakMapLivres = new WeakHashMap<>();
 
-        // Création d'un objet (clé)
-        ClasseTest objet1 = new ClasseTest("1er objet");
+        // Création d'un livre (c'est un objet de la map)
+        Livre livre1 = new Livre("1er livre");
 
-        // Ajout d'un objet au WeakHashMap (objet, String associée a l'objet)
-        weakMap.put(objet1, "Exemple");
+        // Ajout du livre au WeakHashMap (objet, String associée a l'objet)
+        weakMapLivres.put(livre1, "Exemple 1");
 
-        System.out.println("Contenu du WeakHashMap avant le GC: " + weakMap);
+        System.out.println("Contenu du WeakHashMap avant le GC: " + weakMapLivres);
 
-        // Définition de l'objet à null pour permettre au garbage collector de collecter cet objet (suppression de la clé)
-        objet1 = null;
+        // Définition de l'objet à null. Vu que c'est une map ou les valeurs sont stockées en WeakReference,
+        // le GC va collecter cet objet car il "n'existe plus" et ne représente plus rien
+        livre1 = null;
 
         // Appeler le garbage collector
         System.gc();
 
-        System.out.println("Contenu du WeakHashMap après le GC: " + weakMap);
+        System.out.println("Contenu du WeakHashMap après le GC: " + weakMapLivres);
     }
 }
